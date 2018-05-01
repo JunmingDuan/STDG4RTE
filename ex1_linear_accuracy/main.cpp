@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
   u_int Nx = atoi(argv[1]);
   double xl = atof(argv[2]);
   double xr = atof(argv[3]);
-  double t_end(1);
+  double t_end(0.1);
   std::cout << "Set up problem ..." << std::endl;
   DGFEMSpace1D Problem(Nx, xl, xr);
   std::cout << "Build quadrature info ..." << std::endl;

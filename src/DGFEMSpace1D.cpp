@@ -162,9 +162,8 @@ void DGFEMSpace1D::DG2av(const SOL& I, VEC<VEC<double>>& I_av) {
   }
 }
 
-EVEC DGFEMSpace1D::Composition(const SOL& I, u_int cell, double x) {
-  EVEC u(M);
-  u.setZero();
+double DGFEMSpace1D::Composition(const SOL& I, u_int cell, u_int m, double x) {
+  double u(0);
   VEC<double> lv(2), gv(2);
   EVEC V;
   lv[0] = -1, lv[1] = 1;
@@ -173,10 +172,8 @@ EVEC DGFEMSpace1D::Composition(const SOL& I, u_int cell, double x) {
   double lp;
   global_to_local(x, lv, gv, &lp);
   V = Lagrange_Poly(lp);
-  for(u_int m = 0; m < M; ++m) {
-    for(u_int k = 0; k < K; ++k) {
-      u[m] += I[cell][m][k]*V[k];
-    }
+  for(u_int k = 0; k < K; ++k) {
+    u += I[cell][m][k]*V[k];
   }
 
   return u;
@@ -232,14 +229,13 @@ void DGFEMSpace1D::print_sol_ex_integral(std::ostream& os, func I0, const double
   os.precision(16);
   os << std::showpos;
   os.setf(std::ios::scientific);
-  I1 = I;
   for(u_int i = 0; i < Nx; ++i) {
     VEC<double> w = QUADINFO[i].weight();
     VEC<double> p = QUADINFO[i].points();
     for(u_int g = 0; g < w.size(); ++g) {
       os << p[g] << " "  << w[g];
       for(u_int m = 0; m < M; ++m) {
-        os  << " " << I1[i][m][g];
+        os  << " " << In[i][m][g];
       }
       for(u_int m = 0; m < M; ++m) {
         os << " " << I0(mu[m], p[g], t);

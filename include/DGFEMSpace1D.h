@@ -44,7 +44,7 @@ class DGFEMSpace1D {
     void st2coe(const u_int q, u_int& qx, u_int& qt);
     void BuildUniMAT();
     void Projection(u_int cell, func I0, double t, bU&);
-    EVEC Composition(const SOL&, u_int cell, double x);
+    double Composition(const SOL&, u_int cell, u_int m, double x);
     void init(func I0);
     double cal_dt(const SOL&, const double);
     void update_sol(const VEC<ST_ele>& W, SOL& I);
@@ -58,7 +58,9 @@ class DGFEMSpace1D {
     EVEC source(func q, u_int cell, u_int m,
         const double t, const double dt);
     void DG2av(const SOL& I, VEC<VEC<double>>& I_av);
+    void find_trouble_cell(const SOL& I, const u_int m, VEC<u_int>& TC);
     void Reconstruct(const SOL& I0, SOL& I);
+    void Reconstruct_TC(const SOL& I0, SOL& I, std::ostream&);
     void run_unsteady(func, func, func, double t_end);
     double cal_res(const SOL& s1, const SOL& s2);
     double cal_res(const VEC<ST_ele>& w1, const VEC<ST_ele>& w2);

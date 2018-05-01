@@ -7,8 +7,7 @@ u_int BDL = 1; u_int BDR = 1;
 double EPS = 0;
 
 double c = 1;
-
-double tol_I = 1e-14;
-double TOL = 1e-14;
-u_int MAXITE = 1e2;
+//double c = 2;
+double sigma_t = 0;
+double sigma_s = 0;
 

@@ -115,14 +115,23 @@ void DGFEMSpace1D::run_unsteady(func q, func BL, func BR, double t_end) {
   std::cout << std::showpos;
   std::cout.setf(std::ios::scientific);
   double t(0), dt(0);
+  //print trouble cells
+  std::stringstream s;
+  s << "ex1_Nx" << Nx << "_K" << K << "_TC.dat";
+  std::string filename(s.str());
+  std::ofstream out(filename.c_str());
 
   while (t < t_end) {
     dt = cal_dt(I, t);
     dt = std::min(dt, t_end-t);
     RAD_BE_unsteady(In, I, q, t, dt, BL, BR);
-    In = I;
+    Reconstruct_TC(I, In, out);
+    I = In;
+    //In = I;
     t += dt;
     std::cout << "t: " << t << ", dt: " << dt << std::endl;
   }
+
+  out.close();
 }
 

@@ -1,23 +1,19 @@
 function plot_ex1(K, n);
 
-format long;
+figure(1)
+numer1 = load(['ex1_Nx',num2str(n),'_K',num2str(K),'.dat']);
+x1 = numer1(:,1); w1 = numer1(:,2); y1 = numer1(:,3); y2 = numer1(:,4);
+plot(x1, y1, '-o', x1, y2, '-r');
+
+figure(2)
 hold on;
-
-%numer1 = load(['ex1_Nx',num2str(n),'_K',num2str(K),'.dat']);
-%x1 = numer1(:,1); y1 = numer1(:,3); y2 = numer1(:,4);
-%plot(x1, y1, 'o', x1, y2, '-k');
-%legend(['k=',num2str(K)], 'exact');
-
-for K = 2:4;
-  numer1 = load(['ex1_Nx',num2str(n),'_K',num2str(K),'.dat']);
-  x1 = numer1(:,1); y1 = numer1(:,3); y2 = numer1(:,4);
-  plot(x1, y1, '-');
+TC1 = dlmread(['ex1_Nx',num2str(n),'_K',num2str(K),'_TC.dat']);
+for i = 1:size(TC1, 1);
+  for j = 1:length(TC1(i,:));
+    if(TC1(i,j) ~= 0)
+      plot(TC1(i,j)/n, (i-1)/n,'ko');
+    end
+  end
 end
-plot(x1, y2, '-k');
-for K = 2:4;
-  numer1 = load(['ex1_Nx',num2str(n),'_K',num2str(K),'_wrong.dat']);
-  x1 = numer1(:,1); y1 = numer1(:,3); y2 = numer1(:,4);
-  plot(x1, y1, '-');
-end
-legend('k=1', 'k=2', 'k=3', 'exact', 'k=1 wrong', 'k=2 wrong', 'k=3 wrong');
+axis([0,1,0,0.1]);
 
